@@ -1,4 +1,4 @@
-pragma solidityxx ^0.4.0;
+pragma soliditypp ^0.4.0;
 contract ViteBet{
     address owner;
     tokenId token = "tti_5649544520544f4b454e6e40";
