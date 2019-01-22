@@ -3,10 +3,9 @@ contract ViteBet{
     address owner;
     tokenId token = "tti_5649544520544f4b454e6e40";
 
-    event bet(address indexed addr, uint256 rollTarget, uint256 betAmount);
     event win(address indexed addr, uint256 rollTarget, uint256 betAmount, uint64 rollNum, uint256 winAmount);
     event lose(address indexed addr, uint256 rollTarget, uint256 betAmount, uint64 rollNum);
-    event suspendBet(address indexed addr);
+    event suspendBet(address indexed addr, uint256 rollTarget, uint256 betAmount, uint64 rollNum);
 
     constructor() public {
         owner = msg.sender;
@@ -28,7 +27,6 @@ contract ViteBet{
         require(msg.tokenid == token);
         require(betAmount >= 1 vite && betAmount <= 100 vite);
         require(rollTargets > 0 && rollTargets < 100000);
-        emit bet(betAddr, rollTargets, betAmount);
 
         bytes32 randomhash = blockhash(block.number);
         uint64 rollNum = uint64(uint256(randomhash) % 6 + 1);
@@ -51,7 +49,7 @@ contract ViteBet{
             emit lose(betAddr, rollTargets, betAmount, rollNum);
         } else if(winBet == true && winAmount > address(this).balance(token)) {
             betAddr.transfer(token, betAmount);
-            emit suspendBet(betAddr);
+            emit suspendBet(betAddr, rollTargets, betAmount, rollNum);
         } else {
             betAddr.transfer(token, winAmount);
             emit win(betAddr, rollTargets, betAmount, rollNum, winAmount);
