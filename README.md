@@ -1,4 +1,4 @@
-# gvite-contracts
+# vite-contracts
 
 This repository contains examples of smart contract written in solidity++.
 
